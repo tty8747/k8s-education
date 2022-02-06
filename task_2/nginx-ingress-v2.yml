@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-nginx-canary
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/canary: "true"
+#   nginx.ingress.kubernetes.io/canary-by-header: "canary"
+#   nginx.ingress.kubernetes.io/canary-by-header-pattern: "always|yes|true|ok"
+    nginx.ingress.kubernetes.io/canary-weight: "40"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+             name: nginx-v2
+             port: 
+                number: 80

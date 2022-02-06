@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nginx-v1
+  name: nginx-v1
+spec:
+  replicas: 8
+  selector:
+    matchLabels:
+      app: nginx-v1
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: nginx-v1
+    spec:
+      containers:
+      - image: nginx
+        name: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - name: app-conf
+          mountPath: /etc/nginx/conf.d/default.conf
+          subPath: v1.conf
+        resources: {}
+      volumes:
+      - name: app-conf
+        configMap:
+          name: nginx-v1
+status: {}
